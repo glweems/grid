@@ -27,7 +27,10 @@ class UserService {
     if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
 
     const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const createUserData: User = await this.users.create({ ...userData, password: hashedPassword });
+    const createUserData: User = await this.users.create({
+      ...userData,
+      password: hashedPassword,
+    });
     return createUserData;
   }
 
@@ -35,7 +38,10 @@ class UserService {
     if (isEmptyObject(userData)) throw new HttpException(400, "You're not userData");
 
     const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const updateUserById: User = await this.users.findByIdAndUpdate(userId, { ...userData, password: hashedPassword });
+    const updateUserById: User = await this.users.findByIdAndUpdate(userId, {
+      ...userData,
+      password: hashedPassword,
+    });
     if (!updateUserById) throw new HttpException(409, "You're not user");
 
     return updateUserById;
