@@ -1,7 +1,6 @@
 {
-  "name": "supergrid9k",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@supergrid9k/web",
+  "version": "0.0.1",
   "homepage": "https://supergrid9k.dev",
   "description": "A visual way to generate css for all your css-grid layouts.",
   "keywords": [
@@ -43,7 +42,8 @@
     "typography": "^0.16.19",
     "typography-breakpoint-constants": "^0.16.19",
     "typography-plugin-code": "^0.16.19",
-    "typography-theme-sutro": "^0.16.19"
+    "typography-theme-sutro": "^0.16.19",
+    "web": "^0.0.2"
   },
   "scripts": {
     "dev": "next",
