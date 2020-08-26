@@ -30,8 +30,8 @@ describe("Testing AuthController", () => {
         .fn()
         .mockReturnValue({ _id: 0, ...userData });
 
-      (Mongoose as any).connect = jest.fn();
-      const app = new App([authRoute]);
+      (Mongoose as any).connect = jest.fn<any, any>();
+      const app = new App({ Routes: [authRoute] });
 
       return request(app.getServer())
         .post(`${authRoute.path}/signup`)
@@ -61,7 +61,7 @@ describe("POST /login", () => {
       );
 
     (Mongoose as any).connect = jest.fn();
-    const app = new App([authRoute]);
+    const app: any = new App({ Routes: [authRoute] });
     return request(app.getServer())
       .post(`${authRoute.path}/login`)
       .send(userData)

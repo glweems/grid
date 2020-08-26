@@ -5,9 +5,15 @@ import * as helmet from "helmet";
 import * as hpp from "hpp";
 import * as mongoose from "mongoose";
 import * as logger from "morgan";
+import * as swaggerUi from "swagger-ui-express";
 import Routes from "./interfaces/routes.interface";
 import errorMiddleware from "./middlewares/error.middleware";
+import { connectionOptions, connectionUri } from "./utils/connection";
 
+export interface AppProps {
+  Routes: Routes[];
+  listeningMsg?: string;
+}
 class App {
   public app: express.Application;
 
@@ -15,7 +21,7 @@ class App {
 
   public env: boolean;
 
-  constructor(routes: Routes[]) {
+  constructor({ Routes: routes }: AppProps) {
     this.app = express();
     this.port = process.env.PORT || 3000;
     this.env = process.env.NODE_ENV === "production";
@@ -36,7 +42,7 @@ class App {
     return this.app;
   }
 
-  private initializeMiddlewares() {
+  initializeMiddlewares() {
     if (this.env) {
       this.app.use(hpp());
       this.app.use(helmet());
@@ -50,6 +56,7 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
+    this.app.use("/api-docs", swaggerUi.serve);
   }
 
   private initializeRoutes(routes: Routes[]) {
@@ -62,24 +69,8 @@ class App {
     this.app.use(errorMiddleware);
   }
 
-  private connectToDatabase() {
-    const {
-      MONGO_USER,
-      MONGO_PASSWORD,
-      MONGO_PATH,
-      MONGO_DATABASE,
-    } = process.env;
-    const options = {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    };
-
-    mongoose.connect(
-      `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${MONGO_DATABASE}`,
-      { ...options }
-    );
+  private async connectToDatabase() {
+    return mongoose.connect(connectionUri, connectionOptions);
   }
 }
 

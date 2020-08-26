@@ -1,11 +1,10 @@
-import * as mongoose from 'mongoose';
-import { User } from '../interfaces/users.interface';
+import { createSchema, Type, typedModel } from "ts-mongoose";
 
-const userSchema = new mongoose.Schema({
-  email: String,
-  password: String,
+const userSchema = createSchema({
+  email: Type.string({ required: true, unique: true }),
+  password: Type.string({ required: true }),
 });
 
-const userModel = mongoose.model<User & mongoose.Document>('User', userSchema);
+const userModel = typedModel("User", userSchema);
 
 export default userModel;

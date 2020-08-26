@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import GridController from '../controllers/grid.controller';
-import Route from '../interfaces/routes.interface';
+import { Router } from "express";
+import GridController from "../controllers/grid.controller";
+import Route from "../interfaces/routes.interface";
 
-class UsersRoute implements Route {
-  public path = '/grid';
+class GridRoute implements Route {
+  public path = "/grid";
   public router = Router();
   public gridController = new GridController();
 
@@ -11,10 +11,10 @@ class UsersRoute implements Route {
     this.initializeRoutes();
   }
 
-  private initializeRoutes() {
+  initializeRoutes() {
     this.router.get(`${this.path}/:id`, this.gridController.getUserById);
-    this.router.post(`${this.path}`, this.gridController.createUser);
+    this.router.post(`${this.path}`, this.gridController.createGrid);
   }
 }
 
-export default UsersRoute;
+export default GridRoute;

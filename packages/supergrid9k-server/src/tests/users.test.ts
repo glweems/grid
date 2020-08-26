@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import * as Mongoose from "mongoose";
 import * as request from "supertest";
 import App from "../app";
 import UsersRoute from "../routes/users.route";
@@ -22,8 +22,8 @@ describe("Testing Users", () => {
           ])
         );
 
-      (mongoose as any).connect = jest.fn();
-      const app = new App([usersRoute]);
+      (Mongoose as any).connect = jest.fn<any, any>();
+      const app = new App({ Routes: [usersRoute] });
       return request(app.getServer()).get(`${usersRoute.path}`).expect(200);
     });
   });

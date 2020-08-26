@@ -12,7 +12,6 @@ export interface GridState {
   gridContainerClassName: string;
   useCssRepeatFn: boolean;
 }
-export interface Grid {
+export interface Grid extends GridState {
   _id: string;
-  grid: GridState;
 }
